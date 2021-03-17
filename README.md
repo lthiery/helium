@@ -1,2 +1,3 @@
 # helium
-Helium apps and crates in Rust
+
+Unofficial Helium apps and crates done for fun.
