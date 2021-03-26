@@ -11,3 +11,5 @@ Cargo.lock
 
 # CLion configuration files
 .idea/
+
+*.csv
