@@ -1,12 +1,12 @@
 use super::*;
-use chrono::{DateTime, NaiveDateTime, Utc};
-use prettytable::{Cell, Row};
-use helium_api::{Hnt, Dc, oracle};
 use async_trait::async_trait;
+use chrono::{DateTime, NaiveDateTime, Utc};
+use helium_api::{oracle, Dc, Hnt};
+use prettytable::{Cell, Row};
 
 #[async_trait]
-pub trait IntoRow {
-    async fn into_row(&self, account: &Address, client: &Client) -> Row;
+pub trait ToRow {
+    async fn to_row(&self, account: &Address, client: &Client) -> Row;
 }
 
 #[async_trait]
@@ -16,7 +16,12 @@ trait GetDifference {
 
 #[async_trait]
 impl GetDifference for PaymentV1 {
-    async fn get_difference(&self, account: &Address, _client: &Client, _height: u64) -> Difference {
+    async fn get_difference(
+        &self,
+        account: &Address,
+        _client: &Client,
+        _height: u64,
+    ) -> Difference {
         let fee = self.proto.fee;
 
         let counterparty = Some(
@@ -28,7 +33,7 @@ impl GetDifference for PaymentV1 {
         if self.proto.payer == *account.as_vec() {
             Difference {
                 counterparty,
-                hnt: Hnt::from(- (self.proto.amount as isize)),
+                hnt: Hnt::from(-(self.proto.amount as isize)),
                 dc: Dc::from(0),
                 fee,
             }
@@ -47,7 +52,12 @@ impl GetDifference for PaymentV1 {
 
 #[async_trait]
 impl GetDifference for PaymentV2 {
-    async fn get_difference(&self, account: &Address, _client: &Client, _height: u64) -> Difference {
+    async fn get_difference(
+        &self,
+        account: &Address,
+        _client: &Client,
+        _height: u64,
+    ) -> Difference {
         let fee = self.proto.fee;
 
         // This account is paying HNT
@@ -91,7 +101,12 @@ impl GetDifference for PaymentV2 {
 
 #[async_trait]
 impl GetDifference for RewardsV1 {
-    async fn get_difference(&self, _account: &Address, _client: &Client, _height: u64) -> Difference {
+    async fn get_difference(
+        &self,
+        _account: &Address,
+        _client: &Client,
+        _height: u64,
+    ) -> Difference {
         let mut hnt = Hnt::from(0).get_decimal();
         // summate rewards for all reward types
         for reward in &self.proto.rewards {
@@ -154,77 +169,82 @@ struct Metadata {
 }
 
 #[async_trait]
-trait IntoRowWithMetadata {
-    async fn into_row_with_metadata(&self, account: &Address, client: &Client, metadata: Metadata)
-                              -> Row;
+trait ToRowWithMetadata {
+    async fn to_row_with_metadata(
+        &self,
+        account: &Address,
+        client: &Client,
+        metadata: Metadata,
+    ) -> Row;
 }
 
-macro_rules! into_row {
+macro_rules! to_row {
     ($self:ident, $txn:ident, $account:ident, $client:ident) => {{
         let metadata = $self.get_metadata();
-        $txn.into_row_with_metadata($account, $client, metadata).await
+        $txn.to_row_with_metadata($account, $client, metadata)
+            .await
     }};
 }
 
 #[async_trait]
-impl IntoRow for Transaction {
-    async fn into_row(&self, account: &Address, client: &Client) -> Row {
+impl ToRow for Transaction {
+    async fn to_row(&self, account: &Address, client: &Client) -> Row {
         match &self.data {
-            Data::PaymentV1(payment) => into_row!(self, payment, account, client),
-            Data::PaymentV2(payment_v2) => into_row!(self, payment_v2, account, client),
-            Data::RewardsV1(reward) => into_row!(self, reward, account, client),
-            Data::TokenBurnV1(burn) => into_row!(self, burn, account, client),
-            Data::AddGatewayV1(add_gateway) => into_row!(self, add_gateway, account, client),
+            Data::PaymentV1(payment) => to_row!(self, payment, account, client),
+            Data::PaymentV2(payment_v2) => to_row!(self, payment_v2, account, client),
+            Data::RewardsV1(reward) => to_row!(self, reward, account, client),
+            Data::TokenBurnV1(burn) => to_row!(self, burn, account, client),
+            Data::AddGatewayV1(add_gateway) => to_row!(self, add_gateway, account, client),
             Data::AssertLocationV1(assert_location) => {
-                into_row!(self, assert_location, account, client)
+                to_row!(self, assert_location, account, client)
             }
-            Data::CoinbaseV1(coinbase) => into_row!(self, coinbase, account, client),
-            Data::CreateHtlcV1(create_htlc) => into_row!(self, create_htlc, account, client),
-            Data::GenGatewayV1(gen_gateway) => into_row!(self, gen_gateway, account, client),
+            Data::CoinbaseV1(coinbase) => to_row!(self, coinbase, account, client),
+            Data::CreateHtlcV1(create_htlc) => to_row!(self, create_htlc, account, client),
+            Data::GenGatewayV1(gen_gateway) => to_row!(self, gen_gateway, account, client),
             Data::ConsensusGroupV1(consensus_group) => {
-                into_row!(self, consensus_group, account, client)
+                to_row!(self, consensus_group, account, client)
             }
-            Data::OuiV1(oui) => into_row!(self, oui, account, client),
+            Data::OuiV1(oui) => to_row!(self, oui, account, client),
             Data::PocReceiptsV1(poc_receipts) => {
-                into_row!(self, poc_receipts, account, client)
+                to_row!(self, poc_receipts, account, client)
             }
-            Data::PocRequestV1(poc_request) => into_row!(self, poc_request, account, client),
-            Data::RedeemHtlcV1(redeem_htlc) => into_row!(self, redeem_htlc, account, client),
+            Data::PocRequestV1(poc_request) => to_row!(self, poc_request, account, client),
+            Data::RedeemHtlcV1(redeem_htlc) => to_row!(self, redeem_htlc, account, client),
             Data::SecurityCoinbaseV1(security_coinbase) => {
-                into_row!(self, security_coinbase, account, client)
+                to_row!(self, security_coinbase, account, client)
             }
-            Data::RoutingV1(routing) => into_row!(self, routing, account, client),
+            Data::RoutingV1(routing) => to_row!(self, routing, account, client),
             Data::SecurityExchangeV1(security_exchange) => {
-                into_row!(self, security_exchange, account, client)
+                to_row!(self, security_exchange, account, client)
             }
-            Data::VarsV1(vars) => into_row!(self, vars, account, client),
-            Data::DcCoinbaseV1(dc_coinbase) => into_row!(self, dc_coinbase, account, client),
+            Data::VarsV1(vars) => to_row!(self, vars, account, client),
+            Data::DcCoinbaseV1(dc_coinbase) => to_row!(self, dc_coinbase, account, client),
             Data::TokenBurnExchangeRateV1(token_burn_exchange_rate) => {
-                into_row!(self, token_burn_exchange_rate, account, client)
+                to_row!(self, token_burn_exchange_rate, account, client)
             }
-            Data::BundleV1(bundle) => into_row!(self, bundle, account, client),
+            Data::BundleV1(bundle) => to_row!(self, bundle, account, client),
 
             Data::StateChannelOpenV1(state_channel_open) => {
-                into_row!(self, state_channel_open, account, client)
+                to_row!(self, state_channel_open, account, client)
             }
 
             Data::UpdateGatewayOuiV1(update_gateway_oui) => {
-                into_row!(self, update_gateway_oui, account, client)
+                to_row!(self, update_gateway_oui, account, client)
             }
 
             Data::StateChannelCloseV1(state_channel_close) => {
-                into_row!(self, state_channel_close, account, client)
+                to_row!(self, state_channel_close, account, client)
             }
             Data::PriceOracleV1(price_oracle) => {
-                into_row!(self, price_oracle, account, client)
+                to_row!(self, price_oracle, account, client)
             }
 
             Data::GenPriceOracleV1(gen_price_oracle) => {
-                into_row!(self, gen_price_oracle, account, client)
+                to_row!(self, gen_price_oracle, account, client)
             }
 
             Data::TransferHotspotV1(transfer_hotspot) => {
-                into_row!(self, transfer_hotspot, account, client)
+                to_row!(self, transfer_hotspot, account, client)
             }
         }
     }
@@ -280,8 +300,8 @@ fn get_common_rows(metadata: &Metadata) -> (Cell, Cell, Cell) {
 macro_rules! into_row {
     ($Txn:ident, $Label:expr) => {
         #[async_trait]
-        impl IntoRowWithMetadata for $Txn {
-            async fn into_row_with_metadata(
+        impl ToRowWithMetadata for $Txn {
+            async fn to_row_with_metadata(
                 &self,
                 account: &Address,
                 client: &Client,
@@ -290,7 +310,9 @@ macro_rules! into_row {
                 // use metadata to generate the first few rows that are common
                 let common = get_common_rows(&metadata);
                 // calculate the effect on the account
-                let difference = self.get_difference(account, client, metadata.height as u64).await;
+                let difference = self
+                    .get_difference(account, client, metadata.height as u64)
+                    .await;
 
                 // extract counterparty for row if there is one
                 let counterparty = if let Some(counterparty) = &difference.counterparty {

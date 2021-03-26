@@ -1,4 +1,4 @@
-use helium_api::{Hnt, Dc};
+use helium_api::{Dc, Hnt};
 use std::fmt;
 
 #[derive(PartialEq, Clone, Default)]
