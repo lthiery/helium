@@ -36,10 +36,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     ]);
     for txn in transactions {
         if let Data::RewardsV1(_) = &txn.data {
-            table.add_row(
-                txn.to_row(&Address::from_str(&cli.address)?, &client)
-                    .await,
-            );
+            table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
         }
     }
 

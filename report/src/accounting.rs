@@ -181,8 +181,7 @@ trait ToRowWithMetadata {
 macro_rules! to_row {
     ($self:ident, $txn:ident, $account:ident, $client:ident) => {{
         let metadata = $self.get_metadata();
-        $txn.to_row_with_metadata($account, $client, metadata)
-            .await
+        $txn.to_row_with_metadata($account, $client, metadata).await
     }};
 }
 
