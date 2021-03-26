@@ -7,7 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-helium-api = { path = "../../helium-api-rs", features = ["transactions"]}
+helium-api = { git = "https://github.com/helium/helium-api-rs.git", branch = "lthiery/dev", features = ["transactions"]}
 tokio = {version = "1", features = ["full"] }
 structopt = "0.3"
 prettytable-rs = "0.8"
