@@ -1,0 +1,16 @@
+[package]
+name = "reports"
+version = "0.1.0"
+authors = ["Louis Thiery <thiery.louis@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+helium-api = { path = "../../helium-api-rs", features = ["transactions"]}
+tokio = {version = "1", features = ["full"] }
+structopt = "0.3"
+prettytable-rs = "0.8"
+chrono = "0.4"
+bs58 = "0.4"
+async-trait = "*"
