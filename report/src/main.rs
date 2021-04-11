@@ -15,7 +15,7 @@ use chrono::{DateTime, Utc};
 pub struct Cli {
     address: String,
     #[structopt(long)]
-    all: bool
+    all: bool,
 }
 
 #[tokio::main]
@@ -24,7 +24,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let client = Client::default();
     let transactions = if cli.all {
-        accounts::transactions(&client, &cli.address).into_vec().await?
+        accounts::transactions(&client, &cli.address)
+            .into_vec()
+            .await?
     } else {
         accounts::rewards(&client, &cli.address).into_vec().await?
     };
@@ -52,7 +54,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
             }
         }
-
     }
 
     let time: DateTime<Utc> = Utc::now();
