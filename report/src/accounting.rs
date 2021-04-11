@@ -158,7 +158,7 @@ impl GetDifference for TokenBurnV1 {
         // so it must just be receiving the DC
         else {
             (
-                Hnt::from(self.proto.amount),
+                Hnt::from(0),
                 Some(Address::from_vec(self.proto.payer.clone()).to_string()),
             )
         };

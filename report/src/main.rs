@@ -14,6 +14,8 @@ use chrono::{DateTime, Utc};
 #[derive(Debug, StructOpt)]
 pub struct Cli {
     address: String,
+    #[structopt(long)]
+    all: bool
 }
 
 #[tokio::main]
@@ -21,7 +23,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::from_args();
 
     let client = Client::default();
-    let transactions = accounts::rewards(&client, &cli.address).into_vec().await?;
+    let transactions = if cli.all {
+        accounts::transactions(&client, &cli.address).into_vec().await?
+    } else {
+        accounts::rewards(&client, &cli.address).into_vec().await?
+    };
 
     let mut table = Table::new();
     table.add_row(row![
@@ -34,13 +40,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "DC",
         "Fee",
     ]);
+
     for txn in transactions {
-        if let Data::RewardsV1(_) = &txn.data {
+        if cli.all {
             table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
+        } else {
+            if let Data::RewardsV1(_) = &txn.data {
+                table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
+            }
+            if let Data::RewardsV2(_) = &txn.data {
+                table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
+            }
         }
-        if let Data::RewardsV2(_) = &txn.data {
-            table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
-        }
+
     }
 
     let time: DateTime<Utc> = Utc::now();
