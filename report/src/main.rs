@@ -30,12 +30,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "Block",
         "Hash",
         "Counterparty",
-        "+/- HNT",
-        "+/- DC",
+        "HNT",
+        "DC",
         "Fee",
     ]);
     for txn in transactions {
         if let Data::RewardsV1(_) = &txn.data {
+            table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
+        }
+        if let Data::RewardsV2(_) = &txn.data {
             table.add_row(txn.to_row(&Address::from_str(&cli.address)?, &client).await);
         }
     }

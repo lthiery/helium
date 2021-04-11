@@ -121,6 +121,28 @@ impl GetDifference for RewardsV1 {
         }
     }
 }
+#[async_trait]
+impl GetDifference for RewardsV2 {
+    async fn get_difference(
+        &self,
+        _account: &Address,
+        _client: &Client,
+        _height: u64,
+    ) -> Difference {
+        let mut hnt = Hnt::from(0).get_decimal();
+        // summate rewards for all reward types
+        for reward in &self.proto.rewards {
+            hnt += Hnt::from(reward.amount).get_decimal();
+        }
+
+        Difference {
+            counterparty: Some("Rewards".to_string()),
+            hnt: Hnt::new(hnt),
+            dc: Dc::from(0),
+            fee: 0,
+        }
+    }
+}
 
 #[async_trait]
 impl GetDifference for TokenBurnV1 {
@@ -192,6 +214,7 @@ impl ToRow for Transaction {
             Data::PaymentV1(payment) => to_row!(self, payment, account, client),
             Data::PaymentV2(payment_v2) => to_row!(self, payment_v2, account, client),
             Data::RewardsV1(reward) => to_row!(self, reward, account, client),
+            Data::RewardsV2(reward) => to_row!(self, reward, account, client),
             Data::TokenBurnV1(burn) => to_row!(self, burn, account, client),
             Data::AddGatewayV1(add_gateway) => to_row!(self, add_gateway, account, client),
             Data::AssertLocationV1(assert_location) => {
@@ -351,6 +374,7 @@ into_row!(RoutingV1, "RoutingV1");
 into_row!(SecurityExchangeV1, "SecurityExchangeV1");
 into_row!(VarsV1, "VarsV1");
 into_row!(RewardsV1, "RewardsV1");
+into_row!(RewardsV2, "RewardsV2");
 into_row!(TokenBurnV1, "TokenBurnV1");
 into_row!(DcCoinbaseV1, "DcCoinbaseV1");
 into_row!(TokenBurnExchangeRateV1, "TokenBurnExchangeRateV1");
