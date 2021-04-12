@@ -1,13 +1,9 @@
-use helium_api::{accounts, transactions::*, Client, IntoVec};
+use helium_api::{accounts, transactions::Data, Client, IntoVec};
 use prettytable::{cell, row, Table};
 use std::fs::File;
 use structopt::StructOpt;
 
-mod accounting;
-mod types;
-
-use accounting::*;
-use types::*;
+use helium_report::*;
 
 use chrono::{DateTime, Utc};
 

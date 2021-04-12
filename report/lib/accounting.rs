@@ -2,6 +2,7 @@ use super::*;
 use async_trait::async_trait;
 use chrono::{DateTime, NaiveDateTime, Utc};
 use helium_api::{oracle, Dc, Hnt};
+use helium_api::{transactions::*, Client};
 use prettytable::{Cell, Row};
 
 #[async_trait]
