@@ -4,13 +4,32 @@ version = "0.1.0"
 authors = ["Louis Thiery <thiery.louis@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "output-account-txns"
+path = "output_account_txns/main.rs"
+doc = false
+
+[[bin]]
+name = "track-earnings"
+path = "track_earnings/main.rs"
+doc = false
+
+[[bin]]
+name = "daily-analysis"
+path = "daily_analysis/main.rs"
+doc = false
 
 [dependencies]
-helium-api = { git = "https://github.com/helium/helium-api-rs.git", branch = "lthiery/dev", features = ["transactions"]}
+#helium-api = { git = "https://github.com/helium/helium-api-rs.git", branch = "lthiery/account-and-hotspot-rewards"}
+helium-api = { path = "../../helium-api-rs" }
+
 tokio = {version = "1", features = ["full"] }
 structopt = "0.3"
 prettytable-rs = "0.8"
 chrono = "0.4"
 bs58 = "0.4"
 async-trait = "*"
+toml = "0"
+serde = {version = "1", features = ["derive"]}
+rust_decimal = {version = "1", features = ["serde-float"] }
+csv = "*"
