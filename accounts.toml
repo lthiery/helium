@@ -1,0 +1,94 @@
+[accounts.security-tokens]
+pubkey = "12zuwphg6KSwSSY7SH32YFRbDknJUn2tUM5UmiZoXYMkLtM3fgD"
+ownership = 1.0
+
+
+#[accounts.ledger_one]
+#pubkey = "14RQCSk9dD1EGTvaaSYYzNE4KM1CuwVi7bHVdBcaodKx9Y4xX9M"
+#ownership = 1.0
+#
+#[accounts.ledger_two]
+#pubkey = "13nfQH4DTFTJLfmtZqER2xwfzcEYJ4xdGb5fAaymsJG1xnVtD7D"
+#ownership = 1.0
+#
+#[accounts.digital-linen-tarantula]
+#pubkey = "144VC7hzyMiQLHkPa29ZSjACY1LmHEYwRuxbzeyW7N7NN4xKrqY"
+#ownership = 1.0
+#
+#[accounts.tart-taupe-worm]
+#pubkey = "14gMAEYxVubQgayWRdCrmEqYtLu6VtGsmREUtD5vaXhJ2qpUgND"
+#ownership = 1.0
+#
+#[accounts.hot-lead-seahorse]
+#pubkey = "1332k39Ly8WEibbq6gkgde9PiH7C1EaT7uuUib6f4yDPk6B3HwS"
+#ownership = 1.0
+#
+#[accounts.shaggy-lavender-mole]
+#pubkey = "13hvied7Udk6KgSaJnU9T6F78yURgAqcB2WwvPuofErRQBqarQk"
+#ownership = 1.0
+#
+#[accounts.micro-burlap-quail]
+#pubkey = "13j6xeSn6nnFPF7jg2VGkmD4CQCq2Mp5NyHNtsSQywEwy9c12yH"
+#ownership = 1.0
+#
+#[accounts.fluffy-sage-porcupine]
+#pubkey = "13vCVN5HU8MpB6foWBQo6kWumtFhJRvqvmsSu3dE6xi9CPCffXD"
+#ownership = 1.0
+#
+#[accounts.recumbent-mercurial-mallard]
+#pubkey = "14Jtcw4u3gFyF26HmvrmSZsZurVJj9v3L8ZZ9tNCXQikyFawg9Z"
+#ownership = 1.0
+#
+#[accounts.jovial-neon-raccoon]
+#pubkey = "14KAxjZk9DxoaUuRnLvXMF3hiZ1XxYcqcaJYHwn5jsvhQWe4JbA"
+#ownership = 1.0
+#
+#[accounts.quaint-inky-pig]
+#pubkey = "14hFas8agF9LAwZpH1rRaAXG9ZNLtJFsTGZErShDQUk8UHbJFgJ"
+#ownership = 1.0
+#
+#[accounts.pet-cobalt-donkey]
+#pubkey = "14qDx7tAKKiZqcZMynewcqKBHVB25FU7uzrW9NjACETzjT7cjZr"
+#ownership = 1.0
+#
+#[accounts.slow-blue-salamander]
+#pubkey = "14UNbycdqtx3ZKiiMDZJfpHFriyCHwN8WrhcVha8kPy4ztE9mfp"
+#ownership = 1.0
+#
+#[accounts.vast-watermelon-llama]
+#pubkey = "14YeL2TBqZbjQsdg2mEKhCU8LhV2BTpQaouhYj5KxMcWzvNdMxe"
+#ownership = 0.7
+#
+#[accounts.upbeat-marmalade-panda]
+#pubkey = "14eYVCM38FEtEeCixj2kE75Lb9MaJQxxBjrbu7uS2Zrj9jWWdJT"
+#ownership = 1.0
+#
+#[accounts.fun-clear-dragon]
+#pubkey = "14F1WXPPQnNwfwfrhoN6EQb7qfM9JKraxraazT4SCFiMu3sU8G5"
+#ownership = 1.0
+
+
+#################
+#[accounts.young-pickle-hedgehog]
+#pubkey = "14U3J1G4tzuEj2PymdD7r62ZLzy2RUSM2MBmJXBGbPwdyQ4mCoJ"
+#ownership = 0.33
+#
+#[accounts.young-sangria-orangutan]
+#pubkey = "13XFn43JCc6SBe8fMFHDB8UXv1jgJXjbigeZyWEgTqC2yAxn73L"
+#ownership = 0.5
+#
+#[accounts.brief-opal-crocodile]
+#pubkey = "13knS7FzdFGgWt86naS2cau8i6Dii3C8LwYjqFiWXHxSKe7GwYW"
+#ownership = 0.33
+
+#[accounts.odd-currant-grasshopper]
+#pubkey = "14ZdeQAHVqnFTYZSrrCbxGmDUkw1ziv3YjXJMJzXjcY4d9Cf9mP"
+#ownership = 1.0
+#
+#[accounts.mini-sangria-robin]
+#pubkey = "14NX8knCD8hemtuLSj5yEaRJ2Ch22BkPEAQo5DMmiwQxnier2Kc"
+#ownership = 1.0
+#
+#[accounts.tricky-raisin-dog]
+#pubkey = "14MMAbbxXt1juQJnEGPpPqm2h2uYih2qfbQPHQ5ECpE61uekmDV"
+#ownership = 1.0

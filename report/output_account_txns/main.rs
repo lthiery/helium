@@ -3,7 +3,9 @@ use prettytable::{cell, row, Table};
 use std::fs::File;
 use structopt::StructOpt;
 
-use helium_report::*;
+mod report;
+
+use report::*;
 
 use chrono::{DateTime, Utc};
 
@@ -19,13 +21,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::from_args();
 
     let client = Client::default();
-    let transactions = if cli.all {
-        accounts::transactions(&client, &cli.address)
-            .into_vec()
-            .await?
-    } else {
-        accounts::rewards(&client, &cli.address).into_vec().await?
-    };
+    let transactions = accounts::transactions(&client, &cli.address)
+        .into_vec()
+        .await?;
 
     let mut table = Table::new();
     table.add_row(row![
